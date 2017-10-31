@@ -1,0 +1,140 @@
+﻿@model PagedList.IPagedList<TempoHire.Models.PaidCustomer>
+@*@model IEnumerable<TempoHire.Models.PaidCustomer>*@
+
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2  style="color:darkcyan;">Total Paid Customer</h2>
+
+
+
+<button class="btn btn-default" >@Html.ActionLink("Create New", "Create")</button>
+
+@using (Html.BeginForm("Index", "PaidCustomers", FormMethod.Get))
+{
+
+    <h4>
+        Find By Name :@Html.TextBox("searchString", ViewBag.currentFilter as string)
+        <input type="submit" value="Search" />
+    </h4>
+}
+<table class="table table-bordered table-condensed table-striped">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.PaymentMode.PaymentModeName)*@
+            @Html.ActionLink("Payment Mode","Index",new {sortOrder=ViewBag.PaymentModeParam })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Pincode.PinCodeNumber)*@
+            @Html.ActionLink("Pin Code", "Index", new { sortOrder= ViewBag.PinCodeParam })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Plan.PlanName)*@
+            @Html.ActionLink("Plan Name", "Index", new { sortOrder= ViewBag.PlanNameParam })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Station.StationName)*@
+
+            @Html.ActionLink("Station", "Index", new { sortOrder= ViewBag.StationParam })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Vehicle.VehicleTypeName)*@
+            @Html.ActionLink("Vehicle Type", "Index", new { sortOrder= ViewBag.VehicleTypeNameParam })
+
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Date)*@
+
+            @Html.ActionLink("Date", "Index", new { sortOrder= ViewBag.DateParam })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.CustomerName)*@
+            @Html.ActionLink("Customer Name", "Index",new { sortOrder= ViewBag.CustomerNameParam})
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.ContactNumber)*@
+            @Html.ActionLink("Contact Number", "Index", new { sortOrder= ViewBag.ContactNumberParam })
+
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.CompanyName)*@
+            @Html.ActionLink("Company Name", "Index", new { sortOrder= ViewBag.CompanyNameParam })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Location)*@
+            @Html.ActionLink("Location", "Index", new { sortOrder= ViewBag.LocationParam })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Amount)*@
+            @Html.ActionLink("Amount", "Index", new { sortOrder= ViewBag.AmountParam })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.AmountPanding)*@
+            @Html.ActionLink("AmountPanding","Index")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentMode.PaymentModeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pincode.PinCodeNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Plan.PlanName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Station.StationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vehicle.VehicleTypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AmountPanding)
+        </td>
+        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PaidCustomerID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PaidCustomerID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PaidCustomerID })
+        </td>
+    </tr>
+    
+}
+    <tr>
+        <td colspan="11"> <strong>Total :</strong></td>
+
+        <td colspan="2">@ViewBag.Total</td>
+
+    </tr>
+</table>
+
+Page@(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of
+@Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
